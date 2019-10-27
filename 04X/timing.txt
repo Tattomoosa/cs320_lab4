@@ -1,0 +1,75 @@
+1. For arrays, prepending is much slower than appending.
+
+Appending: 0.287s (user+sys)
+$ time java IntSequenceTimer array 10000 5000 0 0
+real    0m0.232s
+user    0m0.229s
+sys     0m0.058s
+
+Prepending: 8.730s (user+sys)
+$ time java IntSequenceTimer array 10000 0 5000 0
+real    0m8.677s
+user    0m8.670s
+sys     0m0.060s
+
+This is true, appending is significantly faster. This is because prepending
+involves copying the entire array and shifting it over, whereas appending
+simply drops a value in an empty slot.
+
+2. For lists, prepending and appending are roughly the same speed.
+
+Appending: 0.443s (user+sys)
+$ time java IntSequenceTimer list 10000 5000 0 0
+real    0m0.414s
+user    0m0.366s
+sys     0m0.077s
+
+Prepending: 0.449s (user+sys)
+$ time java IntSequenceTimer list 10000 0 5000 0
+real    0m0.381s
+user    0m0.340s
+sys     0m0.109s
+
+This is true, the operations are effectively the same speed. This is because
+whether prepending or appending, the list is doing very similar things:
+Allocating space for an item and setting a 'pointer' to that item.
+
+3. Prepending is much faster in the list implementation than in the array
+implementation.
+
+Prepending: 0.449s (user+sys)
+$ time java IntSequenceTimer list 10000 0 5000 0
+real    0m0.381s
+user    0m0.340s
+sys     0m0.109s
+
+Prepending: 8.730s (user+sys)
+$ time java IntSequenceTimer array 10000 0 5000 0
+real    0m8.677s
+user    0m8.670s
+sys     0m0.060s
+
+This is true. This is because the array is copying and shifting values every
+prepend, while the list is simply linking to a single new value at the head.
+
+4. Appending is roughly the same speed for both implementations.
+
+```
+$ time java IntSequenceTimer list/array tests appends prepends reads
+```
+
+Appending: 0.287s (user+sys)
+$ time java IntSequenceTimer array 10000 5000 0 0
+real    0m0.232s
+user    0m0.229s
+sys     0m0.058s
+
+Appending: 0.443s (user+sys)
+$ time java IntSequenceTimer list 10000 5000 0 0
+real    0m0.414s
+user    0m0.366s
+sys     0m0.077s
+
+This is true. More tests show that the list is always about half as fast as the
+array, meaning that the time they take 'grows' at the same rate as input size
+increases and are effectively the same speed.
