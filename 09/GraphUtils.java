@@ -4,7 +4,8 @@ import java.util.*;
 public abstract class GraphUtils {
 
   static <V> Graph<V> emptyGraph() {
-      return new HiddenGraph<V>();
+      // return new HiddenGraph<V>();
+      return new AdjSetGraph<V>();
   }
 
   static <V> String dumpGraph(Graph<V> g) {
