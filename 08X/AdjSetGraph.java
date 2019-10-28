@@ -17,7 +17,7 @@ class  AdjSetGraph<V> implements Graph<V> {
     public int vertexCount() { return vertices.size(); }
     public boolean hasVertex(V v) { return vertices.containsKey(v); }
     public void addEdge(V v1, V v2) {
-        if (!hasVertex(v1) || !hasVertex(v2) || hasEdge(v1, v2)) return;
+        if (hasEdge(v1, v2)) return;
         vertices.get(v1).add(v2);
         vertices.get(v2).add(v1);
     }
