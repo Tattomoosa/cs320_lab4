@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class DOS {
-
     public static void main(String argv[]) throws Exception {
         String filename = argv[0];
         String[] fields = filename.split("[.]");
